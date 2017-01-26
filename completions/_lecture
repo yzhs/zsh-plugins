@@ -1,0 +1,10 @@
+#compdef lecture
+#autoload
+
+_lecture() {
+  setopt extendedglob
+  local curcontext="$curcontext" state line
+
+  local names="$(basename -a ~/lectures/*/)"
+  compadd "$@" $(echo $names)
+}

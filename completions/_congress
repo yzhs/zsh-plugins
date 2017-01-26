@@ -1,0 +1,10 @@
+#compdef congress
+#autoload
+
+_congress() {
+  setopt extendedglob
+  local curcontext="$curcontext" state line
+
+  local names="$(basename -a ~/videos/*/)"
+  compadd "$@" $(echo $names)
+}
