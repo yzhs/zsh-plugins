@@ -1,3 +1,4 @@
+#
 #compdef old
 #autoload
 
@@ -31,3 +32,5 @@ _old() {
     esac
   esac
 }
+
+compctl _old old
