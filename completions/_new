@@ -1,6 +1,0 @@
-#compdef new
-
-local fontdir
-typeset -A opt_args
-
-_arguments 'lecture' 'podcast' 'video'
