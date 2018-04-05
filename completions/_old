@@ -1,36 +1,29 @@
-#
 #compdef old
-#autoload
 
-_old() {
-  setopt extendedglob
-  local curcontext="$curcontext" state line
-  typeset -A opt_args
-  _arguments \
-    '1: :->category'\
-    '2: :->name'
+setopt extendedglob
+local curcontext="$curcontext" state line
+_arguments \
+  '1: :->category'\
+  '2: :->name'
 
-  case $state in
-  category)
-    _arguments '1:category:(lecture podcast video)'
-  ;;
-  *)
-    case $words[2] in
-      lecture)
-        local names="$(basename -a ~/lectures/*/)"
-        compadd "$@" $(echo $names)
-        ;;
-      podcast)
-        local names="$(basename -a ~/podcasts/*/)"
-        compadd "$@" $(echo $names)
-        ;;
-      video)
-        local names="$(basename -a ~/videos/*/)"
-        compadd "$@" $(echo $names)
-        ;;
-      *)
-    esac
+case $state in
+category)
+  _arguments '1:category:(lecture podcast video)'
+;;
+*)
+  case $words[2] in
+    lecture)
+      local names="$(basename -a ~/lectures/*/)"
+      compadd "$@" $(echo $names)
+      ;;
+    podcast)
+      local names="$(basename -a ~/podcasts/*/)"
+      compadd "$@" $(echo $names)
+      ;;
+    video)
+      local names="$(basename -a ~/videos/*/)"
+      compadd "$@" $(echo $names)
+      ;;
+    *)
   esac
-}
-
-compctl _old old
+esac
