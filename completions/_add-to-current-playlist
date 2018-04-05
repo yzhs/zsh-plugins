@@ -1,0 +1,33 @@
+#compdef add-to-current-playlist
+
+local MPD_MUSIC_DIR
+
+# set this style to the music_directory of mpd to get _files based completion
+zstyle -s ":completion:${curcontext}:" mpd-music-directory MPD_MUSIC_DIR
+
+(( $+functions[_mpc_add] )) ||
+_add() {
+  if [[ -n $MPD_MUSIC_DIR ]]; then
+    _files -W $MPD_MUSIC_DIR
+    return
+  fi
+
+  local -U list expl prefix=$PREFIX
+  if [[ $words[CURRENT] != */* ]]; then
+    # Take the result of _call_program, remove trailing slashes from each line
+    # and create an array of the resulting lines.
+    list=( ${${(f)"$(_call_program files mpc listall)"}%%/*})
+    _wanted files expl file compadd -qS/ -a list
+  else
+    [[ $compstate[quote] = [\'\"] ]] && prefix="$compstate[quote]$PREFIX$compstate[quote]"
+    list=(${(f)"$(mpc tab -- ${(Q)prefix} 2>/dev/null)"})
+    _wanted files expl file _multi_parts / list
+  fi
+}
+
+local curcontext="$curcontext" state line expl ret=1
+
+_arguments -C \
+  '*::command:_add' && ret=0
+
+return ret
